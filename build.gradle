@@ -49,11 +49,11 @@ publish {
     bintrayKey = key
     userOrg = user
     dryRun = false
-    groupId = 'com.github.rcichielo'
+    groupId = 'com.github.beyka'
     artifactId = 'androidtiffbitmapfactory'
     publishVersion = '0.9.8.7'
     desc = 'Library for opening and saving TIFF image files on android devices'
     licences = ['MIT']
-    website = 'https://github.com/rcichielo/Android-TiffBitmapFactory'
+    website = 'https://github.com/Beyka/Android-TiffBitmapFactory'
 }
 
