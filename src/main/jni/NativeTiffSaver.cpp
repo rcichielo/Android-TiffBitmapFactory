@@ -393,6 +393,7 @@ extern "C" {
             TIFFSetField(output_image, TIFFTAG_ROWSPERSTRIP, img_height);
             for (int row = 0; row < img_height; row++) {
                TIFFWriteScanline(output_image, &bilevel[row * compressedWidth], row, 0);
+            }
             free(bilevel);
         } else if (compressionInt == COMPRESSION_JPEG) {
             for (int row = 0; row < img_height; row++) {
