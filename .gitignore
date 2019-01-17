@@ -3,3 +3,4 @@
 *.o.d
 *.so
 *.iml
+.DS_Store
