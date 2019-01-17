@@ -383,18 +383,12 @@ extern "C" {
 
         // Write the information to the file
         if (compressionInt == COMPRESSION_CCITTRLE || compressionInt == COMPRESSION_CCITTFAX3 || compressionInt == COMPRESSION_CCITTFAX4) {
-            unsigned int t1 = getTickCount();
             unsigned char *bilevel = convertArgbToBilevel(img, img_width, img_height);
-            unsigned int t2 = getTickCount();
             int compressedWidth = (img_width/8 + 0.5);
 
             for (int row = 0; row < img_height; row++) {
                TIFFWriteScanline(output_image, &bilevel[row * compressedWidth], row, 0);
             }
-            unsigned int t3 = getTickCount();
-            char text[64];
-            sprintf(text, "convert: %dms, compress: %dms", t2 - t1, t3 - t2);
-            TIFFSetField(output_image, TIFFTAG_COPYRIGHT, text);
 
             free(bilevel);
         } else if (compressionInt == COMPRESSION_JPEG) {
@@ -453,14 +447,14 @@ extern "C" {
         if (ret == -1) return JNI_FALSE;
         return JNI_TRUE;
     }
-
+/*
     unsigned int getTickCount()
     {
         struct timespec now;
         clock_gettime(CLOCK_MONOTONIC, &now);
         return (unsigned int)(now.tv_sec * 1000 + now.tv_nsec / 1000000);
     }
-
+*/
     unsigned char *convertArgbToBilevel(uint32 *source, jint width, jint height) {
         long long threshold = 0;
         uint32 crPix;
