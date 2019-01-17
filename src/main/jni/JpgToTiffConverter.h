@@ -13,6 +13,7 @@
 #include <jpeglib.h>
 #include <setjmp.h>
 #include "BaseTiffConverter.h"
+#include <cstring>
 
 #ifdef NDEBUG
     #define LOGI(x)
