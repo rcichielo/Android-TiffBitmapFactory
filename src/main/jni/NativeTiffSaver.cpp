@@ -345,10 +345,10 @@ extern "C" {
         TIFFSetField(output_image, TIFFTAG_RESOLUTIONUNIT, resUnit);
 
         if (compressionInt == COMPRESSION_CCITTRLE ||compressionInt == COMPRESSION_CCITTFAX3 || compressionInt == COMPRESSION_CCITTFAX4) {
+            TIFFSetField(output_image, TIFFTAG_ROWSPERSTRIP, img_height);
             TIFFSetField(output_image, TIFFTAG_BITSPERSAMPLE,	1);
             TIFFSetField(output_image, TIFFTAG_SAMPLESPERPIXEL,	1);
-            // TIFFSetField(output_image, TIFFTAG_ROWSPERSTRIP, 1);
-            TIFFSetField(output_image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+            TIFFSetField(output_image, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
             TIFFSetField(output_image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
         } else {
             TIFFSetField(output_image, TIFFTAG_BITSPERSAMPLE, 8);
@@ -385,15 +385,11 @@ extern "C" {
         if (compressionInt == COMPRESSION_CCITTRLE || compressionInt == COMPRESSION_CCITTFAX3 || compressionInt == COMPRESSION_CCITTFAX4) {
             unsigned char *bilevel = convertArgbToBilevel(img, img_width, img_height);
             int compressedWidth = (img_width/8 + 0.5);
-            /*
-            for (int i = 0; i < img_height; i++) {
-                TIFFWriteEncodedStrip(output_image, i, &bilevel[i * compressedWidth], (compressedWidth));
-            }
-            */
-            TIFFSetField(output_image, TIFFTAG_ROWSPERSTRIP, img_height);
+
             for (int row = 0; row < img_height; row++) {
                TIFFWriteScanline(output_image, &bilevel[row * compressedWidth], row, 0);
             }
+
             free(bilevel);
         } else if (compressionInt == COMPRESSION_JPEG) {
             for (int row = 0; row < img_height; row++) {
@@ -478,7 +474,7 @@ extern "C" {
                 else charsum |= 1 << k;
 
                 if (k == 0) {
-                    dest[j * bilevelWidth + shift] = charsum;
+                    dest[j * bilevelWidth + shift] = ~charsum;
                     shift++;
                     k = 7;
 
